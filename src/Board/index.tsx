@@ -119,6 +119,10 @@ export const Board: React.FC = () => {
         <button onClick={() => store.move()}>A1</button>
         <button onClick={() => store.move(true)}>A2</button>
       </div>
+      <div id="life-bar-container">
+        <div id="life-bar">8000</div>
+        <div id="life-bar">8000</div>
+      </div>
       <div id="camera">
         <div id="board">
           <BoardBg />
