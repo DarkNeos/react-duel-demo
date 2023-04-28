@@ -24,7 +24,7 @@ interface MatState {
 export const store = proxy<MatState>({
   monsters: [
     { id: 0, zone: MONSTER_ZONE, defense: false, effect: true },
-    { id: 1, zone: MONSTER_ZONE, defense: false },
+    { id: 1, zone: MONSTER_ZONE, defense: true },
   ],
   magics: [
     { id: 2, zone: MAGIC_ZONE, defense: false },
@@ -44,10 +44,11 @@ export const store = proxy<MatState>({
       const moved = store.magics.pop();
       if (moved) {
         moved.zone = MONSTER_ZONE;
+        moved.defense = !moved.defense;
         store.monsters.push(moved);
       }
     } else {
-      const moved = store.hands.pop();
+      const moved = store.monsters.pop();
       if (moved) {
         moved.zone = MAGIC_ZONE;
         store.magics.push(moved);
