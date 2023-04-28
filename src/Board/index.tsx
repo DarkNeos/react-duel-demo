@@ -6,7 +6,10 @@ import { useSnapshot } from "valtio";
 
 import { CardState, DECK_ZONE, HAND_ZONE, store } from "../store";
 
-const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
+const BoardBgRow: React.FC<{ isExtra?: boolean; highlight?: boolean }> = ({
+  isExtra = false,
+  highlight = false,
+}) => (
   <div className="block-row">
     {Array(isExtra ? 2 : 5)
       .fill(null)
@@ -16,6 +19,11 @@ const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
           className={classnames("block", {
             "block-extra": isExtra,
           })}
+          style={
+            {
+              "--highlight-on": highlight ? 1 : 0,
+            } as any
+          }
         ></div>
       ))}
   </div>
@@ -29,7 +37,7 @@ const BoardBg: React.FC = () => (
   <div id="board-bg">
     <BoardBgRow />
     <BoardBgRow />
-    <BoardBgRow isExtra />
+    <BoardBgRow isExtra highlight />
     <BoardBgRow />
     <BoardBgRow />
   </div>
@@ -44,6 +52,7 @@ const Card: React.FC<{
   facedown?: boolean;
   opponent?: boolean;
   hand?: boolean;
+  highlight?: boolean;
   fly?: boolean;
   transTime?: number;
   style?: CSSProperties;
@@ -56,6 +65,7 @@ const Card: React.FC<{
   facedown = false,
   opponent = false,
   hand = false,
+  highlight = false,
   fly = false,
   transTime = 0.3,
   style = {},
@@ -75,6 +85,7 @@ const Card: React.FC<{
           "--opponent-deg": opponent ? "180deg" : "0deg",
           "--is-hand": hand ? 1 : 0,
           "--trans-time": `${transTime}s`,
+          "--highlight-on": highlight ? 1 : 0,
           "--card-img": facedown
             ? `url(${CARD_COVER_URL})`
             : `url(${CARD_IMG_URL_BASE + code + ".jpg"})`,
@@ -121,6 +132,7 @@ export const Board: React.FC = () => {
               defense={card.inner.defense}
               facedown={card.inner.zone == DECK_ZONE}
               hand={card.inner.zone == HAND_ZONE}
+              highlight={card.inner.effect}
             />
           ))}
         </div>

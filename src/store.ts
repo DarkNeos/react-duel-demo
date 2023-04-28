@@ -10,6 +10,7 @@ export interface CardState {
   id: number; // 每张卡在场上的唯一标识
   zone: number;
   defense: boolean;
+  effect?: boolean;
 }
 
 interface MatState {
@@ -22,19 +23,19 @@ interface MatState {
 
 export const store = proxy<MatState>({
   monsters: [
-    { id: 0, zone: MONSTER_ZONE, defense: false },
+    { id: 0, zone: MONSTER_ZONE, defense: false, effect: true },
     { id: 1, zone: MONSTER_ZONE, defense: false },
   ],
   magics: [
     { id: 2, zone: MAGIC_ZONE, defense: false },
-    { id: 3, zone: MAGIC_ZONE, defense: false },
+    { id: 3, zone: MAGIC_ZONE, defense: false, effect: true },
     { id: 4, zone: MAGIC_ZONE, defense: false },
   ],
   deck: [{ id: 5, zone: DECK_ZONE, defense: false }],
   hands: [
     { id: 6, zone: HAND_ZONE, defense: false },
     { id: 7, zone: HAND_ZONE, defense: false },
-    { id: 8, zone: HAND_ZONE, defense: false },
+    { id: 8, zone: HAND_ZONE, defense: false, effect: true },
     { id: 9, zone: HAND_ZONE, defense: false },
     { id: 10, zone: HAND_ZONE, defense: false },
   ],
