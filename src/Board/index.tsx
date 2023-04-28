@@ -1,7 +1,7 @@
 import "./index.css";
 
 import classnames from "classnames";
-import React, { type CSSProperties } from "react";
+import React, { type CSSProperties, MouseEventHandler } from "react";
 import { useSnapshot } from "valtio";
 
 import { CardState, DECK_ZONE, HAND_ZONE, store } from "../store";
@@ -55,6 +55,7 @@ const Card: React.FC<{
   highlight?: boolean;
   fly?: boolean;
   transTime?: number;
+  onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
 }> = ({
   code,
@@ -68,6 +69,7 @@ const Card: React.FC<{
   highlight = false,
   fly = false,
   transTime = 0.3,
+  onClick,
   style = {},
 }) => {
   return (
@@ -92,6 +94,7 @@ const Card: React.FC<{
           ...style,
         } as any
       }
+      onClick={onClick}
     ></div>
   );
 };
@@ -133,6 +136,9 @@ export const Board: React.FC = () => {
               facedown={card.inner.zone == DECK_ZONE}
               hand={card.inner.zone == HAND_ZONE}
               highlight={card.inner.effect}
+              onClick={() => {
+                alert(`card-${card.inner.id} is clicked!`);
+              }}
             />
           ))}
         </div>
