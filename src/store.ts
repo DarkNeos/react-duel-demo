@@ -3,8 +3,9 @@ import { devtools } from "valtio/utils";
 
 const MONSTER_ZONE = 3;
 const MAGIC_ZONE = 4;
+export const DECK_ZONE = 5;
 
-interface CardState {
+export interface CardState {
   id: number; // 每张卡在场上的唯一标识
   zone: number;
   defense: boolean;
@@ -13,6 +14,7 @@ interface CardState {
 interface MatState {
   monsters: CardState[];
   magics: CardState[];
+  deck: CardState[];
   move: (reverse?: boolean) => void;
 }
 
@@ -26,6 +28,7 @@ export const store = proxy<MatState>({
     { id: 3, zone: MAGIC_ZONE, defense: false },
     { id: 4, zone: MAGIC_ZONE, defense: false },
   ],
+  deck: [{ id: 5, zone: DECK_ZONE, defense: false }],
   move(reverse?: boolean) {
     if (reverse) {
       const moved = store.magics.pop();

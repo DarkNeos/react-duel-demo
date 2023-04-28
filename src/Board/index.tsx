@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React, { type CSSProperties } from "react";
 import { useSnapshot } from "valtio";
 
-import { store } from "../store";
+import { CardState, DECK_ZONE, store } from "../store";
 
 const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
   <div className="block-row">
@@ -21,25 +21,10 @@ const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
   </div>
 );
 
-const BoardDeck: React.FC<{
-  nCards: number;
-  isMain?: boolean;
-  isOpponent?: boolean;
-}> = ({ nCards, isMain = false, isOpponent = false }) => (
-  <div
-    className={classnames("deck", {
-      "deck-main": isMain,
-      "deck-opponent": isOpponent,
-    })}
-  >
-    {Array(nCards)
-      .fill(null)
-      .map((_, i) => (
-        // @ts-expect-error xxxxx
-        <div key={i} className="card-deck" style={{ "--i": i }}></div>
-      ))}
-  </div>
-);
+const CARD_IMG_URL_BASE =
+  "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/";
+const CARD_CODE = 26077387;
+const CARD_COVER_URL = "../src/assets//cover.jpeg";
 
 const BoardBg: React.FC = () => (
   <div id="board-bg">
@@ -48,27 +33,27 @@ const BoardBg: React.FC = () => (
     <BoardBgRow isExtra />
     <BoardBgRow />
     <BoardBgRow />
-    <BoardDeck nCards={15} />
-    <BoardDeck nCards={40} isMain />
-    <BoardDeck nCards={15} isOpponent />
-    <BoardDeck nCards={40} isMain isOpponent />
   </div>
 );
 
 const Card: React.FC<{
+  code: number;
   r?: number;
   c?: number;
   h?: number;
   defense?: boolean;
+  facedown?: boolean;
   opponent?: boolean;
   fly?: boolean;
   transTime?: number;
   style?: CSSProperties;
 }> = ({
+  code,
   r = 0,
   c = 0,
   h = 1,
   defense = false,
+  facedown = false,
   opponent = false,
   fly = false,
   transTime = 0.3,
@@ -88,6 +73,9 @@ const Card: React.FC<{
           "--shadow": h > 0 ? 1 : 0,
           "--opponent-deg": opponent ? "180deg" : "0deg",
           "--trans-time": `${transTime}s`,
+          "--card-img": facedown
+            ? `url(${CARD_COVER_URL})`
+            : `url(${CARD_IMG_URL_BASE + code + ".jpg"})`,
           ...style,
         } as any
       }
@@ -98,15 +86,14 @@ const Card: React.FC<{
 export const Board: React.FC = () => {
   const snap = useSnapshot(store);
 
+  const mapState = (state: CardState, sequence: number) => {
+    return { inner: state, sequence };
+  };
+
   const cards = snap.magics
-    .map((card, sequence) => {
-      return { inner: card, sequence };
-    })
-    .concat(
-      snap.monsters.map((card, sequence) => {
-        return { inner: card, sequence };
-      })
-    );
+    .map(mapState)
+    .concat(snap.monsters.map(mapState))
+    .concat(snap.deck.map(mapState));
 
   cards.sort((a, b) => a.inner.id - b.inner.id);
 
@@ -122,9 +109,11 @@ export const Board: React.FC = () => {
           {cards.map((card) => (
             <Card
               key={card.inner.id}
-              r={card.inner.zone}
-              c={card.sequence}
+              code={CARD_CODE}
+              r={card.inner.zone == DECK_ZONE ? 4 : card.inner.zone}
+              c={card.inner.zone == DECK_ZONE ? -1 : card.sequence}
               defense={card.inner.defense}
+              facedown={card.inner.zone == DECK_ZONE}
             />
           ))}
         </div>

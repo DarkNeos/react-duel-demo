@@ -1,6 +1,6 @@
 :root {
   --perspective: 800px;
-  --scale: 1.2;
+  --scale: 1.35;
   --board-rotate-z: 20deg;
   --block-width: calc(80px * var(--scale));
   --block-height: calc(80px * var(--scale));
@@ -31,7 +31,7 @@
   transition: var(--trans-time);
   aspect-ratio: var(--card-w-l-ratio);
   background-color: skyblue;
-  background: url("../assets//26077387.jpg");
+  background: var(--card-img);
   background-size: cover;
   height: var(--block-height);
   --x-margin-left: calc(
@@ -106,51 +106,6 @@
   flex-direction: column;
   gap: var(--block-row-gap);
   transform-style: preserve-3d;
-}
-
-.deck {
-  aspect-ratio: var(--card-w-l-ratio);
-  height: var(--block-height);
-  background-color: skyblue;
-  position: absolute;
-  bottom: 0;
-  transform-style: preserve-3d;
-  transform: translateX(calc(var(--deck-offset-x) * -1))
-    translateY(var(--deck-offset-y)) rotateZ(var(--deck-rotate-z));
-}
-
-.deck-main {
-  right: 0;
-  transform: translateX(calc(var(--deck-offset-x)))
-    translateY(var(--deck-offset-y)) rotateZ(calc(var(--deck-rotate-z) * -1));
-}
-
-.deck-opponent {
-  top: 0;
-  right: 0;
-  transform: translateX(calc(var(--deck-offset-x)))
-    translateY(calc(var(--deck-offset-y) * -1))
-    rotateZ(calc(var(--deck-rotate-z)));
-}
-
-.deck-main.deck-opponent {
-  right: auto;
-  transform: translateX(calc(var(--deck-offset-x) * -1))
-    translateY(calc(var(--deck-offset-y) * -1))
-    rotateZ(calc(var(--deck-rotate-z) * -1));
-}
-
-.card-deck {
-  width: 100%;
-  height: 100%;
-  background-color: darkorange;
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translateZ(calc(var(--i) * 0.5px));
-  border: 1px solid dimgray;
-  background: url("../assets//cover.jpeg");
-  background-size: cover;
 }
 
 @keyframes animation-fly {
