@@ -13,6 +13,8 @@
   --opponent-deg: 180deg;
   --hand-rotate: calc(var(--board-rotate-z) * -1);
   --highlight-interval: 800ms;
+  --highlight-color-x: #393;
+  --highlight-color-y: #6f6;
 }
 #camera {
   perspective: var(--perspective);
@@ -89,6 +91,10 @@
   transform: translateZ(calc(-1 * var(--z)));
 }
 
+.card:hover {
+  animation: glow-hover var(--highlight-interval) ease-out infinite alternate;
+}
+
 .block {
   width: var(--block-width);
   height: var(--block-height);
@@ -163,11 +169,22 @@
 
 @keyframes glow {
   0% {
-      border-color: #393;
+      border-color: var(--highlight-color-x);
       box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 1px 0 #393;
   }
   100% {
-      border-color: #6f6;
+      border-color: var(--highlight-color-y);
       box-shadow: 0 0 20px rgba(0,255,0,.6), inset 0 0 10px rgba(0,255,0,.4), 0 1px 0 #6f6;
+  }
+}
+
+@keyframes glow-hover {
+  0% {
+      border-color: #CBCC24;
+      box-shadow: 0 0 5px rgba(255,255,0,.2), inset 0 0 5px rgba(255,255,0,.1), 0 1px 0 #CBCC24;
+  }
+  100% {
+      border-color: #F0F224;
+      box-shadow: 0 0 20px rgba(255,255,0,.6), inset 0 0 10px rgba(255,255,0,.4), 0 1px 0 #F0F224;
   }
 }
