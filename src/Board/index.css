@@ -11,6 +11,7 @@
   --deck-offset-y: calc(45px * var(--scale));
   --deck-rotate-z: 30deg;
   --opponent-deg: 180deg;
+  --hand-rotate: calc(var(--board-rotate-z) * -1);
 }
 #camera {
   perspective: var(--perspective);
@@ -43,7 +44,7 @@
   --x: calc(var(--x-margin-left) + var(--x-padding));
   --y: calc(var(--r) * calc(var(--block-height) + var(--block-row-gap)));
   --z: calc(var(--h) * 1px);
-  transform: translateZ(var(--z));
+  transform: translateZ(var(--z)) rotateX(calc(var(--hand-rotate) * var(--is-hand)));
   translate: var(--x) var(--y);
   rotate: var(--opponent-deg);
   transform-style: preserve-3d;

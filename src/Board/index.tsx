@@ -4,7 +4,7 @@ import classnames from "classnames";
 import React, { type CSSProperties } from "react";
 import { useSnapshot } from "valtio";
 
-import { CardState, DECK_ZONE, store } from "../store";
+import { CardState, DECK_ZONE, HAND_ZONE, store } from "../store";
 
 const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
   <div className="block-row">
@@ -21,8 +21,7 @@ const BoardBgRow: React.FC<{ isExtra?: boolean }> = ({ isExtra = false }) => (
   </div>
 );
 
-const CARD_IMG_URL_BASE =
-  "https://cdn02.moecube.com:444/images/ygopro-images-zh-CN/";
+const CARD_IMG_URL_BASE = "../src/assets//";
 const CARD_CODE = 26077387;
 const CARD_COVER_URL = "../src/assets//cover.jpeg";
 
@@ -44,6 +43,7 @@ const Card: React.FC<{
   defense?: boolean;
   facedown?: boolean;
   opponent?: boolean;
+  hand?: boolean;
   fly?: boolean;
   transTime?: number;
   style?: CSSProperties;
@@ -55,6 +55,7 @@ const Card: React.FC<{
   defense = false,
   facedown = false,
   opponent = false,
+  hand = false,
   fly = false,
   transTime = 0.3,
   style = {},
@@ -72,6 +73,7 @@ const Card: React.FC<{
           "--c": c,
           "--shadow": h > 0 ? 1 : 0,
           "--opponent-deg": opponent ? "180deg" : "0deg",
+          "--is-hand": hand ? 1 : 0,
           "--trans-time": `${transTime}s`,
           "--card-img": facedown
             ? `url(${CARD_COVER_URL})`
@@ -93,8 +95,8 @@ export const Board: React.FC = () => {
   const cards = snap.magics
     .map(mapState)
     .concat(snap.monsters.map(mapState))
-    .concat(snap.deck.map(mapState));
-
+    .concat(snap.deck.map(mapState))
+    .concat(snap.hands.map(mapState));
   cards.sort((a, b) => a.inner.id - b.inner.id);
 
   return (
@@ -110,10 +112,15 @@ export const Board: React.FC = () => {
             <Card
               key={card.inner.id}
               code={CARD_CODE}
-              r={card.inner.zone == DECK_ZONE ? 4 : card.inner.zone}
+              r={
+                card.inner.zone == DECK_ZONE || card.inner.zone == HAND_ZONE
+                  ? card.inner.zone - 1
+                  : card.inner.zone
+              }
               c={card.inner.zone == DECK_ZONE ? -1 : card.sequence}
               defense={card.inner.defense}
               facedown={card.inner.zone == DECK_ZONE}
+              hand={card.inner.zone == HAND_ZONE}
             />
           ))}
         </div>
