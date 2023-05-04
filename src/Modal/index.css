@@ -1,0 +1,37 @@
+.card-modal {
+  position: fixed;
+  display: flex;
+  left: 5%;
+  top: 20%;
+  border-style: groove;
+  border-radius: 8px;
+  width: 200px;
+  flex-wrap: wrap;
+  background-color: #303030;
+  padding: 1%;
+}
+
+.card-modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-modal-name {
+  font-weight: bold;
+}
+
+.card-modal-attribute {
+  font-weight: bold;
+}
+
+.card-modal-atk {
+  font-weight: bold;
+}
+
+.card-modal-effect {
+  font-weight: lighter;
+  text-align: left;
+  max-height: 200px;
+  overflow: auto;
+}
