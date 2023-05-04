@@ -40,3 +40,9 @@
   max-height: 200px;
   overflow: auto;
 }
+
+.card-modal-btn {
+  margin: 1px 5px;
+  font-size: 80%;
+  border-color: yellow;
+}
