@@ -1,6 +1,4 @@
 .card-modal {
-  --visibility: hidden;
-  visibility: var(--visibility);
   position: fixed;
   display: flex;
   left: 5%;
@@ -11,6 +9,11 @@
   flex-wrap: wrap;
   background-color: #303030;
   padding: 1%;
+  --visibility: hidden;
+  visibility: var(--visibility);
+  --opacity: 0;
+  opacity: var(--opacity);
+  transition:visibility 0.3s linear, opacity 0.3s linear;
 }
 
 .card-modal-container {

@@ -9,12 +9,14 @@ import { store } from "../store";
 export const Modal: React.FC = () => {
   const snap = useSnapshot(store);
   const visible = snap.modalVisible ? "visible" : "hidden";
+  const opacity = snap.modalVisible ? 1 : 0;
   return (
     <div
       className={classnames("card-modal")}
       style={
         {
           "--visibility": visible,
+          "--opacity": opacity,
         } as any
       }
     >
