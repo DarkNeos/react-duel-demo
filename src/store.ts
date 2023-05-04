@@ -18,6 +18,7 @@ interface MatState {
   magics: CardState[];
   deck: CardState[];
   hands: CardState[];
+  modalVisible: boolean;
   move: (reverse?: boolean) => void;
 }
 
@@ -39,6 +40,7 @@ export const store = proxy<MatState>({
     { id: 9, zone: HAND_ZONE, defense: false },
     { id: 10, zone: HAND_ZONE, defense: false },
   ],
+  modalVisible: false,
   move(reverse?: boolean) {
     if (reverse) {
       const moved = store.magics.pop();

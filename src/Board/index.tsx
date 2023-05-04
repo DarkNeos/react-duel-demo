@@ -118,6 +118,9 @@ export const Board: React.FC = () => {
       <div id="controller">
         <button onClick={() => store.move()}>A1</button>
         <button onClick={() => store.move(true)}>A2</button>
+        <button onClick={() => (store.modalVisible = !snap.modalVisible)}>
+          A3
+        </button>
       </div>
       <div id="life-bar-container">
         <div id="life-bar">8000</div>

@@ -1,4 +1,6 @@
 .card-modal {
+  --visibility: hidden;
+  visibility: var(--visibility);
   position: fixed;
   display: flex;
   left: 5%;
