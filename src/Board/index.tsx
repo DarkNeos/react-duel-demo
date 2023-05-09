@@ -1,7 +1,7 @@
 import "./index.css";
 
 import classnames from "classnames";
-import React, { type CSSProperties, MouseEventHandler } from "react";
+import React, { type CSSProperties, MouseEventHandler, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import { CardState, DECK_ZONE, HAND_ZONE, store } from "../store";
@@ -55,6 +55,7 @@ const Card: React.FC<{
   highlight?: boolean;
   fly?: boolean;
   transTime?: number;
+  focus?: boolean;
   onClick?: MouseEventHandler<{}>;
   style?: CSSProperties;
 }> = ({
@@ -69,6 +70,7 @@ const Card: React.FC<{
   highlight = false,
   fly = false,
   transTime = 0.3,
+  focus = false,
   onClick,
   style = {},
 }) => {
@@ -80,14 +82,15 @@ const Card: React.FC<{
       })}
       style={
         {
-          "--h": h,
+          "--h": focus ? 100 : h,
           "--r": r,
           "--c": c,
           "--shadow": h > 0 ? 1 : 0,
           "--opponent-deg": opponent ? "180deg" : "0deg",
-          "--is-hand": hand ? 1 : 0,
+          "--is-hand": hand || focus ? 1 : 0,
           "--trans-time": `${transTime}s`,
           "--highlight-on": highlight ? 1 : 0,
+          "--scale-focus": focus ? 2.5 : 1,
           "--card-img": facedown
             ? `url(${CARD_COVER_URL})`
             : `url(${CARD_IMG_URL_BASE + code + ".jpg"})`,
@@ -113,6 +116,8 @@ export const Board: React.FC = () => {
     .concat(snap.hands.map(mapState));
   cards.sort((a, b) => a.inner.id - b.inner.id);
 
+  const [focus, setFocus] = useState(false);
+
   return (
     <>
       <div id="controller">
@@ -121,6 +126,7 @@ export const Board: React.FC = () => {
         <button onClick={() => (store.modalVisible = !snap.modalVisible)}>
           A3
         </button>
+        <button onClick={() => setFocus((prev) => !prev)}>A4</button>
       </div>
       <div id="life-bar-container">
         <div id="life-bar">8000</div>
@@ -148,6 +154,12 @@ export const Board: React.FC = () => {
               }}
             />
           ))}
+          <Card
+            code={CARD_CODE}
+            r={focus ? 2 : 0}
+            c={focus ? 2 : 0}
+            focus={focus}
+          />
         </div>
       </div>
     </>
