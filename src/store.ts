@@ -11,6 +11,7 @@ export interface CardState {
   zone: number;
   defense: boolean;
   effect?: boolean;
+  chained?: boolean;
 }
 
 interface MatState {
@@ -30,7 +31,7 @@ export const store = proxy<MatState>({
   magics: [
     { id: 2, zone: MAGIC_ZONE, defense: false },
     { id: 3, zone: MAGIC_ZONE, defense: false, effect: true },
-    { id: 4, zone: MAGIC_ZONE, defense: false },
+    { id: 4, zone: MAGIC_ZONE, defense: false, chained: true },
   ],
   deck: [{ id: 5, zone: DECK_ZONE, defense: false }],
   hands: [

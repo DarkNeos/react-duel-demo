@@ -4,6 +4,7 @@ import classnames from "classnames";
 import React, { type CSSProperties, MouseEventHandler, useState } from "react";
 import { useSnapshot } from "valtio";
 
+import { Chain } from "../Chain";
 import { CardState, DECK_ZONE, HAND_ZONE, store } from "../store";
 
 const BoardBgRow: React.FC<{ isExtra?: boolean; highlight?: boolean }> = ({
@@ -54,6 +55,7 @@ const Card: React.FC<{
   hand?: boolean;
   highlight?: boolean;
   fly?: boolean;
+  chained?: boolean;
   transTime?: number;
   focus?: boolean;
   onClick?: MouseEventHandler<{}>;
@@ -69,6 +71,7 @@ const Card: React.FC<{
   hand = false,
   highlight = false,
   fly = false,
+  chained = false,
   transTime = 0.3,
   focus = false,
   onClick,
@@ -98,7 +101,9 @@ const Card: React.FC<{
         } as any
       }
       onClick={onClick}
-    ></div>
+    >
+      {chained ? <Chain /> : <></>}
+    </div>
   );
 };
 
@@ -149,6 +154,7 @@ export const Board: React.FC = () => {
               facedown={card.inner.zone == DECK_ZONE}
               hand={card.inner.zone == HAND_ZONE}
               highlight={card.inner.effect}
+              chained={card.inner.chained}
               onClick={() => {
                 alert(`card-${card.inner.id} is clicked!`);
               }}
